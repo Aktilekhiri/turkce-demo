@@ -1,0 +1,9 @@
+:root{--bg:#10121a;--card:#1a1d29;--ink:#eceef5;--mute:#9aa1b5;--line:#2b3042;--pri:#7c5cff;--r:18px}
+.fb.good{background:#12311d;color:#9be7ae}.fb.bad{background:#3a1717;color:#ffb3b3}
+.opt.right{background:#12311d}.opt.wrong{background:#3a1717}.opt.sel{background:#2a2350}.wimg,.ti,.md img{background:#fff}.ti{color:#111}
+.bub{background:#242838}.line.now .bub{background:#2a2350}.ans{background:#10121a}.keys button{background:#242838}.tok{background:#242838}
+.unit-head{background:linear-gradient(135deg,var(--c),#00000055);border:1px solid var(--line)}
+.lessons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.lesson{flex-direction:column;align-items:flex-start;gap:8px;min-height:116px;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);position:relative}
+.lesson.done{border-color:var(--c)}.node{width:40px;height:40px;border-radius:12px;background:var(--c);color:#fff;font-size:20px}.pct{position:absolute;right:12px;top:12px;margin:0}
+.btn.ghost{background:#242838}.lang{background:var(--card)}.chip{background:#242838}.brand span{color:#a99bff}

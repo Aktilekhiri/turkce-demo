@@ -1,0 +1,7 @@
+:root{--bg:#f4f1ea;--card:#fffdf8;--ink:#1f2a37;--pri:#1f3a5f;--line:#e2dccd;--r:12px;--head:Georgia,"Times New Roman",serif;--font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.brand b,.brand span{font-family:var(--head)}.brand span{color:#b4572b}
+.unit{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}.unit-head{border-radius:0;background:var(--c)}
+.lessons{display:block}.lesson{padding:14px 16px;border-top:1px solid var(--line);min-height:64px}.lesson:hover{background:#faf6ec}
+.node{width:38px;height:38px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:18px}.lesson.done .node{background:var(--c);color:#fff;border-color:var(--c)}
+.btn{border-radius:10px;background:#1f3a5f}.opt{border-radius:10px}.big,.flash .front{font-family:var(--head)}
+.bar a.on{color:#1f3a5f}
