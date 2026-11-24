@@ -2,17 +2,17 @@
 (() => {
 const C = window.CONTENT, $ = s => document.querySelector(s), app = $("#app");
 const T = {
- ky:{home:"Башкы",dict:"Сөздүк",me:"Мен",start:"Баштоо",again:"Кайра",next:"Улантуу",check:"Текшерүү",ok:"Туура!",no:"Туура жооп:",xp:"XP",streak:"күн",done:"Бүттү",
+ ky:{cont:"Улантуу",nextl:"Кийинки сабак",home:"Башкы",dict:"Сөздүк",me:"Мен",start:"Баштоо",again:"Кайра",next:"Улантуу",check:"Текшерүү",ok:"Туура!",no:"Туура жооп:",xp:"XP",streak:"күн",done:"Бүттү",
   search:"Издөө…",listen:"Угуу",flash:"Сөздү үйрөн",pic:"Бул эмне?",tr:"Которуу",hear:"Эмнени уктуң?",type:"Түркчө жаз",match:"Жуптарды тап",tf:"Туурабы?",fill:"Бош жерди толтур",asm:"Сүйлөмдү түз",
   yes:"Туура",nope:"Ката",lose:"Жүрөктөр бүттү",again2:"Кайра аракет",pass:"Тест өттү!",fail:"Тест өтпөдү (керек: 80%)",words:"сөз",dialog:"Диалог",playall:"Баарын ойнотуу",tap:"Которуу үчүн сап басыңыз",
   badges:"Жетишкендиктер",lang:"Тил",close:"Жабуу",lesson:"Сабак",nores:"Табылган жок",flipH:"Басып которуу",finish:"Бүтүрүү",score:"Жыйынтык",book:"Китептеги көнүгүүлөр",test:"Тест",
   b_first:"Биринчи сабак",b_perf:"100% сабак",b_unit:"Бөлүм өттү",b_streak:"3 күн катары менен"},
- ru:{home:"Главная",dict:"Словарь",me:"Я",start:"Начать",again:"Ещё раз",next:"Дальше",check:"Проверить",ok:"Верно!",no:"Правильно:",xp:"XP",streak:"дн.",done:"Пройдено",
+ ru:{cont:"Продолжить",nextl:"Следующий урок",home:"Главная",dict:"Словарь",me:"Я",start:"Начать",again:"Ещё раз",next:"Дальше",check:"Проверить",ok:"Верно!",no:"Правильно:",xp:"XP",streak:"дн.",done:"Пройдено",
   search:"Поиск…",listen:"Слушать",flash:"Выучи слово",pic:"Что это?",tr:"Перевод",hear:"Что ты услышал?",type:"Напиши по-турецки",match:"Найди пары",tf:"Верно?",fill:"Заполни пропуск",asm:"Собери фразу",
   yes:"Верно",nope:"Неверно",lose:"Сердца закончились",again2:"Попробовать снова",pass:"Тест сдан!",fail:"Тест не сдан (нужно 80%)",words:"слов",dialog:"Диалог",playall:"Проиграть всё",tap:"Нажми на реплику — перевод",
   badges:"Достижения",lang:"Язык",close:"Закрыть",lesson:"Урок",nores:"Ничего не найдено",flipH:"Нажми — перевод",finish:"Завершить",score:"Результат",book:"Упражнения из книги",test:"Тест",
   b_first:"Первый урок",b_perf:"Урок на 100%",b_unit:"Юнит пройден",b_streak:"3 дня подряд"},
- en:{home:"Home",dict:"Dictionary",me:"Me",start:"Start",again:"Again",next:"Continue",check:"Check",ok:"Correct!",no:"Correct answer:",xp:"XP",streak:"days",done:"Done",
+ en:{cont:"Continue",nextl:"Next lesson",home:"Home",dict:"Dictionary",me:"Me",start:"Start",again:"Again",next:"Continue",check:"Check",ok:"Correct!",no:"Correct answer:",xp:"XP",streak:"days",done:"Done",
   search:"Search…",listen:"Listen",flash:"Learn the word",pic:"What is this?",tr:"Translate",hear:"What did you hear?",type:"Type in Turkish",match:"Match the pairs",tf:"True or false?",fill:"Fill in the blank",asm:"Build the phrase",
   yes:"True",nope:"False",lose:"Out of hearts",again2:"Try again",pass:"Test passed!",fail:"Test failed (80% needed)",words:"words",dialog:"Dialogue",playall:"Play all",tap:"Tap a line for translation",
   badges:"Achievements",lang:"Language",close:"Close",lesson:"Lesson",nores:"Nothing found",flipH:"Tap to translate",finish:"Finish",score:"Score",book:"Book exercises",test:"Test",
@@ -50,14 +50,21 @@ function shell(view,active){
 // ---- главная (3 раскладки)
 function home(){
  const v=h("div",{class:"home "+window.SKIN});
- units.forEach((u,ui)=>{
-  const doneN=u.lessons.filter(l=>S.done[l.id]!=null).length;
-  const head=h("div",{class:"unit-head",style:`--c:${u.color}`},h("span",{class:"ic"},u.icon),h("div",null,h("small",null,"Unit "+u.num+" · "+u.name.tr),h("h2",null,L(u.name))),h("em",null,doneN+"/"+u.lessons.length));
+ const flat=units.flatMap(u=>u.lessons.map(l=>({u,l}))),nx=flat.find(x=>S.done[x.l.id]==null)||flat[0];
+ const total=flat.length,dn=flat.filter(x=>S.done[x.l.id]!=null).length;
+ const thumbOf=l=>{const w=(l.words||[]).find(x=>x.img)||(l.pairs||[]).map(p=>p.job).find(x=>x.img);return w?h("img",{class:"thumb",src:IMG(w.img),alt:"",loading:"lazy"}):null};
+ v.append(h("a",{class:"hero",href:`#/l/${nx.u.id}/${nx.l.id}`,style:`--c:${nx.u.color}`},
+  h("div",{class:"hero-t"},h("small",null,dn?t("nextl"):L(nx.u.name)),h("h1",null,L(nx.l.title)),h("span",{class:"cta"},t("cont"))),
+  thumbOf(nx.l)||h("span",{class:"hero-ic"},nx.u.icon),h("i",{class:"hero-p"},h("b",{style:`width:${Math.round(dn/total*100)}%`}))));
+ units.forEach(u=>{
+  const doneN=u.lessons.filter(l=>S.done[l.id]!=null).length,nid=(u.lessons.find(l=>S.done[l.id]==null)||{}).id;
+  const head=h("div",{class:"unit-head",style:`--c:${u.color}`},h("span",{class:"lb"},u.num),h("div",null,h("small",null,"Benim Evim"===u.name.tr||u.name.tr==="Meslekler"?u.name.tr:""),h("h2",null,L(u.name))),h("em",null,doneN+"/"+u.lessons.length));
   const box=h("div",{class:"lessons"});
   u.lessons.forEach((l,i)=>{
    const d=S.done[l.id],ico={words:"🔤",dialog:"💬",book:"📘",test:"🏆",places:"📍"}[l.type];
-   box.append(h("a",{class:"lesson"+(d!=null?" done":"")+(window.SKIN==="path"?" off"+(i%4):""),href:`#/l/${u.id}/${l.id}`,style:`--c:${u.color}`},
-    h("span",{class:"node"},d!=null?"✓":ico),h("span",{class:"lt"},h("b",null,L(l.title)),h("small",null,l.words?l.words.length+" "+t("words"):l.type==="dialog"?t("dialog"):l.type==="test"?t("test"):t("book"))),d!=null&&h("span",{class:"pct"},d+"%")));
+   box.append(h("a",{class:"lesson t-"+l.type+(d!=null?" done":"")+(l.id===nid?" now":""),href:`#/l/${u.id}/${l.id}`,style:`--c:${u.color}`},
+    h("span",{class:"node"},d!=null?"✓":(l.type==="words"||l.type==="places")?i+1:ico),thumbOf(l),
+    h("span",{class:"lt"},h("b",null,L(l.title)),h("small",null,l.words?l.words.length+" "+t("words"):l.type==="dialog"?t("dialog"):l.type==="test"?t("test"):l.type==="places"?l.pairs.length+" "+t("words"):t("book"))),d!=null&&h("span",{class:"pct"},d+"%")));
   });
   v.append(h("section",{class:"unit"},head,box));
  });
@@ -170,7 +177,7 @@ function lesson(uid,lid){
    const answeredMatch=()=>{const f=h("div",{class:"fb good"},h("b",null,t("ok")),h("button",{class:"btn",onclick:()=>{st.i++;next()}},t("next")));stage.append(f);f.querySelector("button").focus()};
    card(t("match"),h("div",{class:"cols"},h("div",null,L1.map(w=>mk(w,"a"))),h("div",null,R1.map(w=>mk(w,"b")))))},
   dialog:it=>{const D=C.dialogs[it.d],av=D.avatars;let cur=-1,playing=false;const rows=[];
-   const lines=D.lines.map((l,i)=>{const tl=h("div",{class:"tl2"},L(l)),row=h("div",{class:"line"+(Object.keys(av)[0]===l.who?" a":" b"),style:`--av:${av[l.who]}`,onclick:()=>{row.classList.toggle("tr-on");speak(l.tr)}},h("span",{class:"av"},l.who[0]),h("div",{class:"bub"},h("small",null,l.who),h("div",{class:"ttr"},l.tr),tl));rows.push(row);return row});
+   const lines=D.lines.map((l,i)=>{const tl=h("div",{class:"tl2"},L(l)),row=h("div",{class:"line"+(Object.keys(av)[0]===l.who?" a":" b"),style:`--av:${av[l.who]}`,onclick:()=>{row.classList.toggle("tr-on");speak(l.tr)}},h("span",{class:"av"},l.who.slice(0,2)),h("div",{class:"bub"},h("small",null,l.who),h("div",{class:"ttr"},l.tr),tl));rows.push(row);return row});
    const hl=i=>rows.forEach((r,j)=>r.classList.toggle("now",j===i));
    const play=()=>{if(playing){playing=false;speechSynthesis.cancel();hl(-1);return}playing=true;const step=i=>{if(!playing||i>=D.lines.length){playing=false;hl(-1);return}hl(i);rows[i].scrollIntoView({block:"center",behavior:"smooth"});speak(D.lines[i].tr,()=>setTimeout(()=>step(i+1),250))};step(0)};
    stage.append(h("div",{class:"ex dlg"},h("p",{class:"hint"},t("tap")),h("div",{class:"lines"},lines),h("div",{class:"btns"},h("button",{class:"btn ghost",onclick:play},"▶ "+t("playall")),h("button",{class:"btn",onclick:()=>{playing=false;speechSynthesis.cancel();st.i++;next()}},t("next")))))},

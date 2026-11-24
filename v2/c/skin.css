@@ -1,9 +1,29 @@
-:root{--bg:#10121a;--card:#1a1d29;--ink:#eceef5;--mute:#9aa1b5;--line:#2b3042;--pri:#7c5cff;--r:18px}
-.fb.good{background:#12311d;color:#9be7ae}.fb.bad{background:#3a1717;color:#ffb3b3}
-.opt.right{background:#12311d}.opt.wrong{background:#3a1717}.opt.sel{background:#2a2350}.wimg,.ti,.md img{background:#fff}.ti{color:#111}
-.bub{background:#242838}.line.now .bub{background:#2a2350}.ans{background:#10121a}.keys button{background:#242838}.tok{background:#242838}
-.unit-head{background:linear-gradient(135deg,var(--c),#00000055);border:1px solid var(--line)}
-.lessons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
-.lesson{flex-direction:column;align-items:flex-start;gap:8px;min-height:116px;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);position:relative}
-.lesson.done{border-color:var(--c)}.node{width:40px;height:40px;border-radius:12px;background:var(--c);color:#fff;font-size:20px}.pct{position:absolute;right:12px;top:12px;margin:0}
-.btn.ghost{background:#242838}.lang{background:var(--card)}.chip{background:#242838}.brand span{color:#a99bff}
+/* C · Ebru — тёмная бумага с мраморным узором; уроки это стопки карточек */
+:root{--bg:#0d0e22;--card:#171936;--ink:#f1f0fa;--mute:#a3a6cb;--line:#2a2d57;--pri:#ffb84a;--pri-ink:#1a1230;--good:#3ddc97;--bad:#ff6b8b;--r:18px;--font:"Onest",system-ui,sans-serif;--head:"Unbounded","Onest",system-ui,sans-serif;
+ --ebru:radial-gradient(55% 90% at 12% 25%,#19d3c5cc,transparent 62%),radial-gradient(45% 80% at 88% 15%,#ff4d8dcc,transparent 62%),radial-gradient(70% 70% at 62% 105%,#ffb84acc,transparent 62%),radial-gradient(40% 60% at 40% 60%,#6b5bffaa,transparent 70%),#1a1b45}
+body{background:var(--bg)}.top{background:#0d0e22;border-color:var(--line)}.brand{font-family:var(--head);font-size:15px;font-weight:700;color:#fff}.brand span{color:var(--pri)}.chip{background:var(--card);border-color:var(--line);color:var(--ink)}.lang{background:var(--card);color:var(--ink);border-color:var(--line)}
+.bar{background:#0d0e22;border-color:var(--line)}.bar a.on{color:var(--pri)}
+.hero{display:block;position:relative;overflow:hidden;min-height:220px;border-radius:24px;padding:22px;color:#fff;text-decoration:none;background:var(--ebru);margin-bottom:26px;isolation:isolate}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:repeating-radial-gradient(ellipse at 30% 40%,#ffffff14 0 2px,transparent 2px 14px);mix-blend-mode:overlay}
+.hero-t{max-width:62%}.hero small{color:#ffffffcc;font-size:14px}.hero h1{margin:6px 0 18px;font-family:var(--head);font-size:24px;line-height:1.15;font-weight:700;text-shadow:0 2px 14px #0008}
+.hero .cta{display:inline-flex;min-height:48px;align-items:center;padding:0 24px;background:var(--pri);color:var(--pri-ink);font-weight:800;border-radius:99px}
+.hero .thumb,.hero-ic{position:absolute;right:18px;top:20px;width:120px;height:150px;object-fit:contain;background:#fff;border-radius:14px;transform:rotate(6deg);box-shadow:-8px 8px 0 #ffffff33,0 14px 30px #0008;display:grid;place-items:center;font-size:56px}
+.hero-p{position:absolute;left:22px;right:22px;bottom:16px;height:6px;border-radius:3px;background:#0004}.hero-p b{display:block;height:100%;background:#fff;border-radius:3px}
+.unit{margin-bottom:30px}.unit-head{background:none;padding:0 2px;gap:12px;color:var(--ink)}.unit-head h2{font-family:var(--head);font-size:19px;font-weight:700}.unit-head small{color:var(--mute)}.unit-head em{color:var(--mute)}
+.lb{flex:none;width:40px;height:40px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:800}
+.lessons{display:grid;grid-template-columns:1fr 1fr;gap:16px 14px;margin-top:12px}
+.lesson{position:relative;display:block;padding:0 0 12px;color:var(--ink);background:var(--card);border-radius:var(--r);box-shadow:5px 5px 0 -1px #232652,10px 10px 0 -2px #1b1d42}
+.lesson.done{box-shadow:5px 5px 0 -1px color-mix(in srgb,var(--c) 70%,#fff0),10px 10px 0 -2px color-mix(in srgb,var(--c) 40%,#fff0)}
+.lesson .thumb{display:block;width:100%;height:104px;object-fit:contain;background:#fff;border-radius:var(--r) var(--r) 0 0;margin-bottom:10px}
+.lesson:not(:has(.thumb))::before{content:"";display:block;height:104px;border-radius:var(--r) var(--r) 0 0;background:var(--ebru);margin-bottom:10px}
+.lesson.t-dialog:not(:has(.thumb))::before,.lesson.t-book:not(:has(.thumb))::before,.lesson.t-test:not(:has(.thumb))::before{background-position:30% 70%}
+.node{position:absolute;left:10px;top:10px;width:30px;height:30px;border-radius:50%;background:#0d0e22;color:#fff;font-weight:800;font-size:14px}
+.lesson.done .node{background:var(--good);color:#0d0e22}.lesson.now{outline:2px solid var(--pri);outline-offset:3px}.lesson.now .node{background:var(--pri);color:var(--pri-ink)}
+.lt{display:block;padding:0 12px}.lt b{display:block;font-size:15px;line-height:1.25;font-weight:700}.lt small{color:var(--mute);font-size:13px}.pct{position:absolute;right:10px;top:10px;margin:0;background:#0d0e22;border-radius:99px;padding:2px 8px;font-size:13px;color:var(--good)}
+.ex{background:var(--card);border-color:var(--line);border-radius:22px}.hint{color:var(--mute)}
+.opt{background:#1e2048;border:1.5px solid var(--line);border-radius:14px;color:var(--ink)}.opt.right{background:#123a2e;border-color:var(--good)}.opt.wrong{background:#471a2b;border-color:var(--bad)}.opt.sel{background:#2d2a66;border-color:var(--pri)}
+.btn{border-radius:99px;font-weight:800}.btn.ghost{background:#232652;border-color:var(--line);color:var(--ink)}
+.prog{background:#232652}.prog i{background:var(--pri)}.flash{background:var(--ebru);border:0;color:#fff;min-height:320px}.flash .front{font-family:var(--head);font-size:28px;text-shadow:0 2px 14px #0008}.flash .back{color:#fff;background:#0007;border-radius:99px;padding:4px 16px}.flash small{color:#fffc}
+.wimg,.ti{background:#fff}.ti{color:#111}.keys button{background:#232652;border-color:var(--line);color:var(--ink)}.tok{background:#232652;border-color:var(--line);color:var(--ink)}.ans{background:#10112b}
+.fb.good{background:#123a2e;color:#9cf0c9}.fb.bad{background:#471a2b;color:#ffc2d0}.bub{background:#232652}.line.now .bub{background:#2d2a66;border-color:var(--pri)}.line .av{border-radius:50%}
+.big,.flash .front{font-family:var(--head)}.big{font-size:22px}.row,.dl .row{background:var(--card);border-color:var(--line)}.q{background:var(--card);color:var(--ink);border-color:var(--line)}.md{background:var(--card)}.badge{background:var(--card)}
